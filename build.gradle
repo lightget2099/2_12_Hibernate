@@ -13,6 +13,12 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:6.0.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // Source: https://mvnrepository.com/artifact/com.h2database/h2
+    implementation 'com.h2database:h2:2.4.240'
+    implementation 'org.flywaydb:flyway-core:12.3.0'
+    // Source: https://mvnrepository.com/artifact/org.hibernate.orm/hibernate-core
+    implementation 'org.hibernate.orm:hibernate-core:7.3.5.Final'
 }
 
 test {
