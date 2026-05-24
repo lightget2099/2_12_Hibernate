@@ -3,9 +3,13 @@ package org.example;
 
 import org.example.entity.Client;
 import org.example.entity.Planet;
+import org.example.entity.Ticket;
 import org.example.service.ClientCrudService;
 import org.example.service.PlanetCrudService;
+import org.example.service.TicketCrudService;
 import org.flywaydb.core.Flyway;
+
+import java.time.LocalDateTime;
 
 public class Main {
     public static void initMigration() {
@@ -74,5 +78,35 @@ public class Main {
         // delete
         planetService.deleteById("PLN1");
         System.out.println("Планету видалено. Шукаємо видаленну планету: " + planetService.findById("PLN1"));
+
+
+        System.out.println("============== Тест Ticket =================");
+        TicketCrudService ticketService = new TicketCrudService();
+
+
+
+        Ticket ticket = new Ticket();
+        ticket.setClient(clientService.findById(1L));
+        ticket.setFromPlanet(planetService.findById("EARTH"));
+        ticket.setToPlanet(planetService.findById("JUPI"));
+        ticket.setCreatedAt(LocalDateTime.now());
+        ticketService.save(ticket);
+        System.out.println("Квиток успішно створено з ID: " + ticket.getId());
+
+
+
+        try {
+            Ticket invalidTicket = new Ticket();
+            Client fakeClient = new Client();
+            fakeClient.setId(999L);
+            invalidTicket.setClient(fakeClient);
+            invalidTicket.setFromPlanet(planetService.findById("EARTH"));
+            invalidTicket.setToPlanet(planetService.findById("JUPI"));
+            invalidTicket.setCreatedAt(LocalDateTime.now());
+
+            ticketService.save(invalidTicket);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Перевірка успішна: " + e.getMessage());
+        }
     }
 }
